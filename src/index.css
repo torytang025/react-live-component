@@ -2,3 +2,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'haskoy';
+  src: url('./assets/fonts/haskoy.ttf');
+}
