@@ -1,5 +1,11 @@
+import { CountDown } from './components';
+
 function App() {
-  return <h1 className="text-3xl font-bold underline ">Hello world with react and tailwind css!</h1>;
+  return (
+    <div className="bg-transparent relative h-[1080px] w-[1920px]">
+      <CountDown className="absolute left-[40px] top-1/2 -translate-y-1/2 " />
+    </div>
+  );
 }
 
 export default App;

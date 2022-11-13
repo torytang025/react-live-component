@@ -9,6 +9,9 @@ specifiers:
   '@typescript-eslint/parser': ^5.42.1
   '@vitejs/plugin-react': ^2.2.0
   autoprefixer: ^10.4.13
+  classnames: ^2.3.2
+  easytimer-react-hook: ^2.0.2
+  easytimer.js: ^4.5.4
   eslint: ^8.27.0
   eslint-config-prettier: ^8.5.0
   eslint-plugin-import: ^2.26.0
@@ -25,6 +28,9 @@ specifiers:
 
 dependencies:
   '@headlessui/react': 1.7.4_biqbaboplfbrettd7655fr4n2y
+  classnames: 2.3.2
+  easytimer-react-hook: 2.0.2_qdr6uu6xoqxs7yudr6ckpxgfo4
+  easytimer.js: 4.5.4
   normalize.css: 8.0.1
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -844,6 +850,10 @@ packages:
       fsevents: 2.3.2
     dev: true
 
+  /classnames/2.3.2:
+    resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
+    dev: false
+
   /client-only/0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
     dev: false
@@ -984,6 +994,20 @@ packages:
     dependencies:
       esutils: 2.0.3
     dev: true
+
+  /easytimer-react-hook/2.0.2_qdr6uu6xoqxs7yudr6ckpxgfo4:
+    resolution: {integrity: sha512-RHQyVETKlk7kyvl+bOR/G5qxaT0HknZ+l+exZHhZFg8+ZLLn2RNJwNP9UV2ozogrHUPdbonapWLbyj0VMOTo6w==}
+    peerDependencies:
+      easytimer.js: '>=4.0.0'
+      react: '>= 16.8.0'
+    dependencies:
+      easytimer.js: 4.5.4
+      react: 18.2.0
+    dev: false
+
+  /easytimer.js/4.5.4:
+    resolution: {integrity: sha512-65STy2sW2z6e9XwfJqSa18JVNWuOu2cb/FXaZ/BbiDiPnTvC53njMS3oY1BsAIm/Dzt9c8YUvcgc8FoPttm1Gw==}
+    dev: false
 
   /electron-to-chromium/1.4.284:
     resolution: {integrity: sha512-M8WEXFuKXMYMVr45fo8mq0wUrrJHheiKZf6BArTKk9ZBYCKJEOU5H8cdWgDT+qCVZf7Na4lVUaZsA+h6uA9+PA==}

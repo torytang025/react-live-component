@@ -5,5 +5,32 @@
 
 @font-face {
   font-family: 'haskoy';
-  src: url('./assets/fonts/haskoy.ttf');
+  src: url('./assets/fonts/Haskoy-Regular.woff2');
+}
+@font-face {
+  font-family: 'haskoy';
+  src: url('./assets/fonts/Haskoy-Italic.woff2');
+  font-style: italic;
+}
+@font-face {
+  font-family: 'haskoy';
+  src: url('./assets/fonts/Haskoy-Bold.woff2');
+  font-weight: bold;
+}
+@font-face {
+  font-family: 'haskoy';
+  src: url('./assets/fonts/Haskoy-BoldItalic.woff2');
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'haskoy';
+  src: url('./assets/fonts/Haskoy-Light.woff2');
+  font-weight: lighter;
+}
+@font-face {
+  font-family: 'haskoy';
+  src: url('./assets/fonts/Haskoy-LightItalic.woff2');
+  font-weight: lighter;
+  font-style: italic;
 }
