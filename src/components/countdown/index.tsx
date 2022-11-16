@@ -1,6 +1,7 @@
+import React, { useEffect, useState } from 'react';
 import cls from 'classnames';
 import useTimer from 'easytimer-react-hook';
-import { useEffect, useState } from 'react';
+import { Bubble } from '../chat-bubble/bubble';
 
 interface IProps {
   className?: string;
@@ -23,7 +24,7 @@ const BREAK_START_VALUE = {
   seconds: 0,
 };
 
-function CountDown(props: IProps) {
+const CountDown: React.FC<IProps> = (props) => {
   const { className } = props;
   const [isBreakTime, setIsBreakTime] = useState(false);
   const [timer, isTargetAchieved] = useTimer({
@@ -63,14 +64,27 @@ function CountDown(props: IProps) {
 
   return (
     <div className={cls([className, 'bt-black'])}>
-      <p className="font-sans text-8xl font-semibold italic text-primary-1" onClick={handleTimeClick}>
+      <Bubble
+        name="torytang"
+        content="This is the Pomodoro Timer I coded~"
+        direction="left"
+        className="ml-10"
+        size="small"
+      />
+      <p
+        className="font-sans text-8xl font-semibold italic text-primary-1"
+        onClick={handleTimeClick}
+      >
         {timer.getTimeValues().toString(['minutes', 'seconds'], ':')}
       </p>
-      <p className="font-sans text-4xl italic text-primary-2" onClick={handleStatusClick}>
+      <p
+        className="font-sans text-4xl italic text-primary-2"
+        onClick={handleStatusClick}
+      >
         {isBreakTime ? 'Breäk' : 'Stüdy'}
       </p>
     </div>
   );
-}
+};
 
 export { CountDown };
