@@ -65,6 +65,7 @@ const CountDown: React.FC<IProps> = (props) => {
   return (
     <div className={cls([className, 'bt-black'])}>
       <Bubble
+        key="countdown-text"
         name="torytang"
         content="This is the Pomodoro Timer I coded~"
         direction="left"

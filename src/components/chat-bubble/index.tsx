@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import cls from 'classnames';
 import { Bubble } from './bubble';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface IProps {
   className?: string;
@@ -27,7 +28,8 @@ const ChatBubble: React.FC<IProps> = (props) => {
     }
     setMsgList((prev) => {
       const date = new Date();
-      const key = date.getSeconds().toString() + date.getMilliseconds().toString();
+      const key =
+        date.getSeconds().toString() + date.getMilliseconds().toString();
       if (prev.length < maxMsg) {
         return [...prev, { name, content: text, key }];
       } else {
@@ -38,20 +40,23 @@ const ChatBubble: React.FC<IProps> = (props) => {
 
   return (
     <div className={cls([className])}>
-      {msgList.map((msg) => (
-        <Bubble
-          key={msg.key}
-          content={msg.content}
-          name={msg.name}
-          onClick={() => {
-            setMsgList((prev) => {
-              const ind = prev.findIndex((item) => item.key === msg.key);
-              return prev.slice(0, ind).concat(prev.slice(ind + 1));
-            });
-          }}
-        />
-      ))}
+      <AnimatePresence>
+        {msgList.map((msg) => (
+          <Bubble
+            key={msg.key}
+            content={msg.content}
+            name={msg.name}
+            onClick={() => {
+              setMsgList((prev) => {
+                const ind = prev.findIndex((item) => item.key === msg.key);
+                return prev.slice(0, ind).concat(prev.slice(ind + 1));
+              });
+            }}
+          />
+        ))}
+      </AnimatePresence>
       <Bubble
+        key={'edit-bubble'}
         editable={true}
         name={name}
         onEnter={(value) => {

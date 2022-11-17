@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import cls from 'classnames';
 import AutosizeInput from 'react-input-autosize';
+import { motion, Variants } from 'framer-motion';
+
+type IDirection = 'left' | 'right';
 
 interface IProps {
+  key: string | number;
   content?: string;
   name?: string;
   className?: string;
-  direction?: 'left' | 'right';
+  direction?: IDirection;
   size?: 'small' | 'medium';
   editable?: boolean;
   onClick?: () => void;
@@ -14,8 +18,27 @@ interface IProps {
   onEnter?: (value: string) => void;
 }
 
+const bubbleMotionVariants: Variants = {
+  visible: (direction: IDirection) => {
+    return {
+      x: direction === 'left' ? [-40, -20, 0] : [0, -20, -40],
+      opacity: 1,
+      scale: [0, 1.1, 1],
+      transition: { duration: 1, times: [0, 0.4, 1], ease: 'easeOut' },
+    };
+  },
+  hidden: (direction: IDirection) => {
+    return {
+      opacity: 0,
+      x: direction === 'left' ? [0, -20, -40] : [-40, -20, 0],
+      transition: { duration: 1, times: [0, 0.4, 1], ease: 'easeOut' },
+    };
+  },
+};
+
 const Bubble: React.FC<IProps> = (props) => {
   const {
+    key,
     content,
     name,
     direction = 'right',
@@ -29,7 +52,17 @@ const Bubble: React.FC<IProps> = (props) => {
   const [inputValue, setInputValue] = useState('');
 
   return (
-    <div className={cls([className])} onClick={onClick}>
+    <motion.div
+      layout
+      key={key}
+      className={cls([className])}
+      onClick={onClick}
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
+      custom={direction}
+      variants={bubbleMotionVariants}
+    >
       {!editable && (
         <p
           className={`flex font-bold italic text-front ${
@@ -83,7 +116,7 @@ const Bubble: React.FC<IProps> = (props) => {
         )}
         <div></div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
