@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import cls from 'classnames';
 import useTimer from 'easytimer-react-hook';
 import { Bubble } from '../chat-bubble/bubble';
+import { motion } from 'framer-motion';
 
 interface IProps {
   className?: string;
@@ -63,7 +64,11 @@ const CountDown: React.FC<IProps> = (props) => {
   };
 
   return (
-    <div className={cls([className, 'bt-black'])}>
+    <motion.div
+      drag
+      dragMomentum={false}
+      className={cls([className, 'bt-black'])}
+    >
       <Bubble
         key="countdown-text"
         name="torytang"
@@ -84,7 +89,7 @@ const CountDown: React.FC<IProps> = (props) => {
       >
         {isBreakTime ? 'Breäk' : 'Stüdy'}
       </p>
-    </div>
+    </motion.div>
   );
 };
 
