@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import cls from 'classnames';
 import useTimer from 'easytimer-react-hook';
-import { Bubble } from '../chat-bubble/bubble';
 import { motion } from 'framer-motion';
 
 interface IProps {
   className?: string;
+  extra?: React.ReactNode;
 }
 
 enum PomodoroTimer {
@@ -26,7 +26,7 @@ const BREAK_START_VALUE = {
 };
 
 const CountDown: React.FC<IProps> = (props) => {
-  const { className } = props;
+  const { className, extra } = props;
   const [isBreakTime, setIsBreakTime] = useState(false);
   const [timer, isTargetAchieved] = useTimer({
     startValues: {
@@ -69,14 +69,7 @@ const CountDown: React.FC<IProps> = (props) => {
       dragMomentum={false}
       className={cls([className, 'bt-black'])}
     >
-      <Bubble
-        key="countdown-text"
-        name="torytang"
-        content="This is the Pomodoro Timer I coded~"
-        direction="left"
-        className="ml-10"
-        size="small"
-      />
+      {extra}
       <p
         className="font-sans text-8xl font-semibold italic text-primary-1"
         onClick={handleTimeClick}

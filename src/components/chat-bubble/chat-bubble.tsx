@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import cls from 'classnames';
 import { Bubble } from './bubble';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 
 interface IProps {
   className?: string;
