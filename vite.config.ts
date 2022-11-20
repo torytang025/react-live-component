@@ -11,4 +11,12 @@ export default defineConfig({
   },
   base: './',
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      input: {
+        study: path.resolve(__dirname, './template/study.html'),
+        game: path.resolve(__dirname, './template/game.html'),
+      },
+    },
+  },
 });

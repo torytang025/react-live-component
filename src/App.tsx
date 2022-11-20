@@ -1,8 +1,7 @@
 import { StudyLive, GameLive } from './page';
 
 function App() {
-  // return <StudyLive />;
-  return <GameLive />;
+  return <StudyLive />;
 }
 
 export default App;
