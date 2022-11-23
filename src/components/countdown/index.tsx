@@ -8,30 +8,26 @@ interface IProps {
   extra?: React.ReactNode;
 }
 
-enum PomodoroTimer {
-  Focus = 25,
-  break = 5,
+interface PomodoroTimer {
+  status: 'focus' | 'break';
+  interval: {
+    hours?: number;
+    minutes?: number;
+    seconds?: number;
+  };
 }
-
-const FOCUS_START_VALUE = {
-  hours: 0,
-  minutes: PomodoroTimer.Focus,
-  seconds: 0,
-};
-
-const BREAK_START_VALUE = {
-  hours: 0,
-  minutes: PomodoroTimer.break,
-  seconds: 0,
-};
 
 const CountDown: React.FC<IProps> = (props) => {
   const { className, extra } = props;
-  const [isBreakTime, setIsBreakTime] = useState(false);
-  const [timer, isTargetAchieved] = useTimer({
-    startValues: {
-      minutes: PomodoroTimer.Focus,
+  const [currentTimer, setCurrentTimer] = useState<PomodoroTimer>({
+    status: 'focus',
+    interval: {
+      minutes: 25,
     },
+  });
+  const [currentRound, setCurrentRound] = useState(1);
+  const [timer, isTargetAchieved] = useTimer({
+    startValues: currentTimer.interval,
     countdown: true,
     updateWhenTargetAchieved: true,
   });
@@ -44,9 +40,31 @@ const CountDown: React.FC<IProps> = (props) => {
 
   const toggleStatus = () => {
     timer.stop();
-    setIsBreakTime((prev) => !prev);
+    let interval;
+    if (currentTimer.status === 'break') {
+      setCurrentRound((prev) => (prev % 4) + 1);
+      setCurrentTimer({
+        status: 'focus',
+        interval: {
+          minutes: 25,
+        },
+      });
+      interval = {
+        minutes: 25,
+      };
+    } else {
+      setCurrentTimer({
+        status: 'break',
+        interval: {
+          minutes: currentRound !== 4 ? 5 : 15,
+        },
+      });
+      interval = {
+        minutes: currentRound !== 4 ? 5 : 15,
+      };
+    }
     timer.start({
-      startValues: isBreakTime ? FOCUS_START_VALUE : BREAK_START_VALUE,
+      startValues: interval,
       countdown: true,
     });
   };
@@ -80,7 +98,9 @@ const CountDown: React.FC<IProps> = (props) => {
         className="font-sans text-4xl italic text-primary-2"
         onClick={handleStatusClick}
       >
-        {isBreakTime ? 'Breäk' : 'Stüdy'}
+        {(currentTimer.status === 'break' ? 'Breäk' : 'Stüdy') +
+          ' #' +
+          currentRound}
       </p>
     </motion.div>
   );
