@@ -6,9 +6,17 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src'),
+      '@': path.resolve(__dirname, './src'),
     },
   },
   base: './',
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      input: {
+        study: path.resolve(__dirname, './template/study.html'),
+        game: path.resolve(__dirname, './template/game.html'),
+      },
+    },
+  },
 });
