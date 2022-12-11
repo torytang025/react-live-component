@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import cls from 'classnames';
-import AutosizeInput from 'react-input-autosize';
+import { default as classNames, default as cls } from 'classnames';
 import { motion, Variants } from 'framer-motion';
+import React, { useState } from 'react';
+import AutosizeInput from 'react-input-autosize';
 
 type IDirection = 'left' | 'right';
 
@@ -55,7 +55,7 @@ const Bubble: React.FC<IProps> = (props) => {
     <motion.div
       layout
       key={key}
-      className={cls([className])}
+      className={cls(className)}
       onClick={onClick}
       initial="hidden"
       animate="visible"
@@ -67,12 +67,23 @@ const Bubble: React.FC<IProps> = (props) => {
         <p
           className={`flex font-bold italic text-front ${
             direction === 'left' ? 'ml-1 justify-start' : 'mr-1 justify-end'
-          } ${size === 'medium' ? 'text-2xl' : 'text-xl'}`}
+          } ${
+            size === 'medium'
+              ? 'text-2xl'
+              : size === 'small'
+              ? 'text-sm'
+              : 'text-xl'
+          }`}
         >
           {name}
         </p>
       )}
-      <div className="relative flex max-w-xl justify-end align-middle">
+      <div
+        className={classNames(
+          'relative flex max-w-xl align-middle',
+          direction === 'right' ? 'justify-end' : 'justify-start',
+        )}
+      >
         {!editable && (
           <div
             className={`absolute h-[28px] w-[20px] rounded-full bg-transparent  ${

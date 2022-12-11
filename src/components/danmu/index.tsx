@@ -11,6 +11,7 @@ interface IMsg {
 
 const maxMsg = 5;
 const rid = '26433151';
+// const rid = '21685677';
 
 export default function DanMuBubble(props: { className?: string }) {
   const { className } = props;

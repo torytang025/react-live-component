@@ -1,7 +1,12 @@
-import { StudyLive, GameLive } from './page';
+import { RecoilRoot } from 'recoil';
+import { StudyLive } from './page';
 
 function App() {
-  return <StudyLive />;
+  return (
+    <RecoilRoot>
+      <StudyLive />
+    </RecoilRoot>
+  );
 }
 
 export default App;
