@@ -9,9 +9,8 @@ interface IMsg {
   key: string | number;
 }
 
-const maxMsg = 5;
+const maxMsg = 3;
 const rid = '26433151';
-// const rid = '21685677';
 
 export default function DanMuBubble(props: { className?: string }) {
   const { className } = props;
@@ -85,7 +84,7 @@ export default function DanMuBubble(props: { className?: string }) {
   return (
     <div className={classNames([className])}>
       <AnimatePresence>
-        <div className="flex h-[560px] flex-col justify-end gap-y-4">
+        <div className="flex h-[330px] flex-col justify-end gap-y-4">
           {msgList.map((msg) => (
             <Bubble
               key={msg.key}

@@ -1,4 +1,4 @@
-import { StudyLive, GameLive } from '@/page';
+import { StudyLive } from '@/page';
 
 function Study() {
   return <StudyLive />;
