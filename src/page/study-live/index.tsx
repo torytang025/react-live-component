@@ -1,5 +1,4 @@
 import { Bubble, ChatBubble, CountDown } from '@/components';
-import DanMuBubble from '@/components/danmu';
 import { LiveLayout } from '@/layout/live-layout';
 import React from 'react';
 
@@ -19,7 +18,7 @@ const StudyLive: React.FC = () => {
           />
         }
       />
-      <DanMuBubble className="absolute top-24 right-[20px]" />
+      {/* <DanMuBubble className="absolute top-24 right-[20px]" /> */}
       <ChatBubble
         className="absolute bottom-[36px] right-[20px]"
         name="torytang"
