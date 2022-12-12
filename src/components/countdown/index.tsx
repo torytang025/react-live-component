@@ -1,8 +1,9 @@
+import TipAudio from '@/assets/audio/tip_music.mp3';
 import { timerAtom } from '@/page/study-live/model/atom';
 import cls from 'classnames';
 import useTimer from 'easytimer-react-hook';
 import { motion } from 'framer-motion';
-import React, { forwardRef, useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 interface IProps {
@@ -25,6 +26,7 @@ const CountDown = forwardRef(
     const [currentTimer, setCurrentTimer] =
       useRecoilState<PomodoroTimer>(timerAtom);
     const [currentRound, setCurrentRound] = useState(1);
+    const tipAudio = useRef(new Audio(TipAudio));
     const [timer, isTargetAchieved] = useTimer({
       startValues: currentTimer.interval,
       countdown: true,
@@ -33,6 +35,7 @@ const CountDown = forwardRef(
 
     useEffect(() => {
       if (isTargetAchieved) {
+        tipAudio.current.play();
         toggleStatus();
       }
     }, [isTargetAchieved]);
