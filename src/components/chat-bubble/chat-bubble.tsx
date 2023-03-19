@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
 import cls from 'classnames';
-import { Bubble } from './bubble';
 import { AnimatePresence } from 'framer-motion';
+import React, { useState } from 'react';
+import { Bubble } from './bubble';
 
 interface IProps {
   className?: string;
@@ -40,29 +40,33 @@ const ChatBubble: React.FC<IProps> = (props) => {
 
   return (
     <div className={cls([className])}>
-      <AnimatePresence>
-        {msgList.map((msg) => (
-          <Bubble
-            key={msg.key}
-            content={msg.content}
-            name={msg.name}
-            onClick={() => {
-              setMsgList((prev) => {
-                const ind = prev.findIndex((item) => item.key === msg.key);
-                return prev.slice(0, ind).concat(prev.slice(ind + 1));
-              });
-            }}
-          />
-        ))}
-      </AnimatePresence>
-      <Bubble
-        key={'edit-bubble'}
-        editable={true}
-        name={name}
-        onEnter={(value) => {
-          handleAddMsg(value);
-        }}
-      />
+      <div className="flex flex-col items-end justify-end gap-y-4">
+        <AnimatePresence>
+          {msgList.map((msg) => (
+            <Bubble
+              key={msg.key}
+              id={msg.key}
+              content={msg.content}
+              name={msg.name}
+              onClick={() => {
+                setMsgList((prev) => {
+                  const ind = prev.findIndex((item) => item.key === msg.key);
+                  return prev.slice(0, ind).concat(prev.slice(ind + 1));
+                });
+              }}
+            />
+          ))}
+        </AnimatePresence>
+        <Bubble
+          key={'edit-bubble'}
+          id="edit-bubble"
+          editable={true}
+          name={name}
+          onEnter={(value) => {
+            handleAddMsg(value);
+          }}
+        />
+      </div>
     </div>
   );
 };

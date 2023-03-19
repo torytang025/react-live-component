@@ -73,7 +73,11 @@ export default function DanMuBubble(props: { className?: string }) {
     socket.addEventListener('message', handleSocket);
   }, []);
 
+  // auto hide danmu
   useEffect(() => {
+    if (import.meta.env.DEV) {
+      return;
+    }
     setInterval(() => {
       setMsgList((prev) => {
         return prev.slice(1);
@@ -83,11 +87,12 @@ export default function DanMuBubble(props: { className?: string }) {
 
   return (
     <div className={classNames([className])}>
-      <AnimatePresence>
-        <div className="flex h-[330px] flex-col justify-end gap-y-4">
+      <div className="flex h-[330px] flex-col items-end justify-end gap-y-4">
+        <AnimatePresence mode="popLayout">
           {msgList.map((msg) => (
             <Bubble
               key={msg.key}
+              id={msg.key}
               content={msg.content}
               name={msg.name}
               onClick={() => {
@@ -98,8 +103,8 @@ export default function DanMuBubble(props: { className?: string }) {
               }}
             />
           ))}
-        </div>
-      </AnimatePresence>
+        </AnimatePresence>
+      </div>
     </div>
   );
 }

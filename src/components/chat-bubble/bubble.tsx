@@ -6,7 +6,7 @@ import AutosizeInput from 'react-input-autosize';
 type IDirection = 'left' | 'right';
 
 interface IProps {
-  key: string | number;
+  id: string | number;
   content?: string;
   name?: string;
   className?: string;
@@ -38,7 +38,7 @@ const bubbleMotionVariants: Variants = {
 
 const Bubble: React.FC<IProps> = (props) => {
   const {
-    key,
+    id,
     content,
     name,
     direction = 'right',
@@ -54,8 +54,8 @@ const Bubble: React.FC<IProps> = (props) => {
   return (
     <motion.div
       layout
-      key={key}
-      className={cls(className)}
+      key={id}
+      className={cls(className, 'w-max')}
       onClick={onClick}
       initial="hidden"
       animate="visible"
