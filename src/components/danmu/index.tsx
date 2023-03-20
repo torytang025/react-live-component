@@ -1,12 +1,16 @@
 import classNames from 'classnames';
+import dayjs, { Dayjs } from 'dayjs';
 import { AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { Bubble } from '../chat-bubble';
 
 interface IMsg {
-  name: string;
+  name: React.ReactNode;
   content: string;
   key: string | number;
+  time: Dayjs;
+  fansInfo?: string;
 }
 
 const maxMsg = 3;
@@ -54,17 +58,27 @@ export default function DanMuBubble(props: { className?: string }) {
         }
         const msg = data[1];
         const user = data[2][1];
+        const fansInfo = data[3] as [number, string, string]; // 粉丝牌子等级 粉丝称呼
+        const key = uuidv4();
+        const msgData: IMsg = { name: user, content: msg, key, time: dayjs() };
+        if (fansInfo.length && fansInfo[2] === '本来就偏不') {
+          msgData.name = (
+            <div className="flex items-center gap-x-3">
+              <div className="flex items-center gap-x-1 rounded-2xl bg-front/20 p-2">
+                <span className="text-3xl">🧙</span>
+                <span className="text-2xl font-extrabold text-primary-1">
+                  {fansInfo[0]}
+                </span>
+              </div>
+              <span>{user}</span>
+            </div>
+          );
+        }
         setMsgList((prev) => {
-          const date = new Date();
-          const key =
-            date.getSeconds().toString() +
-            date.getMilliseconds().toString() +
-            user +
-            msg.slice(0, 5);
           if (prev.length < maxMsg) {
-            return [...prev, { name: user, content: msg, key }];
+            return [...prev, msgData];
           } else {
-            return [...prev.slice(1), { name: user, content: msg, key }];
+            return [...prev.slice(1), msgData];
           }
         });
       }
@@ -81,12 +95,14 @@ export default function DanMuBubble(props: { className?: string }) {
     setInterval(() => {
       setMsgList((prev) => {
         if (prev.length) {
-          return prev.slice(1);
+          return prev.filter((item) => {
+            return !item.time.isBefore(dayjs().subtract(10, 'seconds'));
+          });
         } else {
           return prev;
         }
       });
-    }, 10000);
+    }, 1000);
   }, []);
 
   return (

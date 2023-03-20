@@ -8,7 +8,7 @@ type IDirection = 'left' | 'right';
 interface IProps {
   id: string | number;
   content?: string;
-  name?: string;
+  name?: React.ReactNode;
   className?: string;
   direction?: IDirection;
   size?: 'small' | 'medium';
@@ -64,7 +64,7 @@ const Bubble: React.FC<IProps> = (props) => {
       variants={bubbleMotionVariants}
     >
       {!editable && (
-        <p
+        <div
           className={`flex font-bold text-front ${
             direction === 'left' ? 'ml-1 justify-start' : 'mr-1 justify-end'
           } ${
@@ -76,11 +76,11 @@ const Bubble: React.FC<IProps> = (props) => {
           }`}
         >
           {name}
-        </p>
+        </div>
       )}
       <div
         className={classNames(
-          'relative flex max-w-xl align-middle',
+          'relative mt-1 flex max-w-xl align-middle',
           direction === 'right' ? 'justify-end' : 'justify-start',
         )}
       >
