@@ -65,7 +65,7 @@ const Bubble: React.FC<IProps> = (props) => {
     >
       {!editable && (
         <p
-          className={`flex font-bold italic text-front ${
+          className={`flex font-bold text-front ${
             direction === 'left' ? 'ml-1 justify-start' : 'mr-1 justify-end'
           } ${
             size === 'medium'

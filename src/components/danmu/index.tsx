@@ -80,7 +80,11 @@ export default function DanMuBubble(props: { className?: string }) {
     }
     setInterval(() => {
       setMsgList((prev) => {
-        return prev.slice(1);
+        if (prev.length) {
+          return prev.slice(1);
+        } else {
+          return prev;
+        }
       });
     }, 10000);
   }, []);
