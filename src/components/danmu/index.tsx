@@ -13,7 +13,7 @@ interface IMsg {
   fansInfo?: string;
 }
 
-const maxMsg = 3;
+const maxMsg = 4;
 const rid = '26433151';
 const TORY_ID = 21609301;
 
@@ -135,7 +135,7 @@ export default function DanMuBubble(props: { className?: string }) {
 
   return (
     <div className={classNames([className])}>
-      <div className="flex h-[330px] flex-col items-end justify-end gap-y-4">
+      <div className="flex h-[500px] flex-col items-end justify-end gap-y-4">
         <AnimatePresence mode="popLayout">
           {msgList.map((msg) => (
             <Bubble
