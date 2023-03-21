@@ -10,7 +10,7 @@ export const LiveLayout: React.FC<IProps> = (props) => {
   return (
     <div
       className={`relative h-[1080px] w-[1920px] ${
-        import.meta.env.DEV ? 'bg-back' : 'bg-transparent'
+        import.meta.env.DEV ? 'bg-study-live bg-cover' : 'bg-transparent'
       }`}
     >
       {children}

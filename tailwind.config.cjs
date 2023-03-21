@@ -19,6 +19,9 @@ module.exports = {
         chatBubbleLeftTail: '9px 4px 0 0 #D8CDB9',
         chatBubbleRightTail: '-9px 4px 0 0 #D8CDB9',
       },
+      backgroundImage: {
+        "study-live": "url(/src/assets/img/shot.png)" 
+      }
     },
   },
   plugins: [],

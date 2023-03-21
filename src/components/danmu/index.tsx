@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Bubble } from '../chat-bubble';
+import { getWsEndpoint } from './utils';
 
 interface IMsg {
   name: React.ReactNode;
@@ -22,7 +23,14 @@ export default function DanMuBubble(props: { className?: string }) {
   const [msgList, setMsgList] = useState<IMsg[]>([]);
 
   useEffect(() => {
-    const socket = new WebSocket('wss://blive.deno.dev');
+    const bliveEndpoint = getWsEndpoint();
+    if (!bliveEndpoint) return;
+    console.log(
+      '%c [ wss init success ]',
+      'font-size:13px; background:#FFFF00; color:#bf2c9f;',
+      bliveEndpoint,
+    );
+    const socket = new WebSocket(bliveEndpoint);
 
     socket.addEventListener('open', () => {
       // 进入房间命令
@@ -55,7 +63,7 @@ export default function DanMuBubble(props: { className?: string }) {
       if (jsonData && jsonData?.payload) {
         const data = jsonData.payload?.info as any[];
         console.log(
-          '%c [ data ]-57-「index.tsx」',
+          '%c [ danmu data ]',
           'font-size:13px; background:#FFFF00; color:#bf2c9f;',
           data,
         );

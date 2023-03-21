@@ -116,7 +116,7 @@ const Bubble: React.FC<IProps> = (props) => {
           </div>
         ) : (
           <div
-            className={`whitespace-pre-wrap rounded-[24px] bg-front ${
+            className={`max-w-sm whitespace-pre-wrap rounded-[24px] bg-front ${
               size === 'medium'
                 ? 'py-[14px] px-[20px] text-[26px]'
                 : 'py-[8px] px-[18px] text-[16px]'
