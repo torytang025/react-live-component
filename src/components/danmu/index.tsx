@@ -38,7 +38,7 @@ export default function DanMuBubble(props: { className?: string }) {
         JSON.stringify({
           cmd: 'enter', // 命令
           rid, // 房间号
-          events: ['DANMU_MSG', 'SUPER_CHAT_MESSAGE'], // 监听这个房间中的事件列表
+          events: ['DANMU_MSG', 'SUPER_CHAT_MESSAGE',"SUPER_CHAT_MESSAGE_JPN"], // 监听这个房间中的事件列表
         }),
       );
 
@@ -51,7 +51,7 @@ export default function DanMuBubble(props: { className?: string }) {
       // );
     });
 
-    const handleSocket = (ev: MessageEvent) => {
+    const handleMessage = (ev: MessageEvent) => {
       const { data } = ev;
       let jsonData;
       try {
@@ -120,7 +120,10 @@ export default function DanMuBubble(props: { className?: string }) {
       }
     };
 
-    socket.addEventListener('message', handleSocket);
+    socket.addEventListener('message', handleMessage);
+    return () => {
+      socket.removeEventListener("message", handleMessage)
+    }
   }, []);
 
   // auto hide danmu
