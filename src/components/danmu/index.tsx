@@ -1,10 +1,15 @@
+import { getNoRefererImageUrl } from '@/utils';
 import { KeepLiveWS } from 'bilibili-live-ws/browser';
 import classNames from 'classnames';
 import dayjs, { Dayjs } from 'dayjs';
 import { AnimatePresence } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 import { v4 as uuidv4 } from 'uuid';
+import { Avatar, AvatarFallback, AvatarImage } from '../avatar';
+import { fireConfetti } from '../canfetti';
 import { Bubble } from '../chat-bubble';
+import { IGiftData } from './type';
 
 interface IMsg {
   name: React.ReactNode;
@@ -21,15 +26,11 @@ const TORY_ID = 21609301;
 export default function DanMuBubble(props: { className?: string }) {
   const { className } = props;
   const [msgList, setMsgList] = useState<IMsg[]>([]);
+  const giftToastList = useRef<string[]>([]);
 
   const handleMessage = (info: any[]) => {
     if (info) {
       const data = info;
-      console.log(
-        '%c [ danmu data ]',
-        'font-size:13px; background:#FFFF00; color:#bf2c9f;',
-        data,
-      );
       if (!data || !data.length) {
         return;
       }
@@ -80,6 +81,39 @@ export default function DanMuBubble(props: { className?: string }) {
     }
   };
 
+  const handleGift = (info: IGiftData) => {
+    fireConfetti();
+    const { uname, face, action, giftName, num } = info;
+    const toastID = toast(
+      <div className="flex items-center gap-x-2  whitespace-nowrap">
+        <div className="flex items-center gap-x-4">
+          <Avatar>
+            <AvatarImage src={getNoRefererImageUrl(face)} />
+            <AvatarFallback>{uname[0]}</AvatarFallback>
+          </Avatar>
+          <p>{uname}</p>
+        </div>
+        <div className="flex items-center gap-x-1 font-bold">
+          <span>{action}</span>
+          <span>{num}</span>
+          <span>x</span>
+        </div>
+        <div className="flex flex-1 items-center gap-x-2 align-middle font-[reggea] text-5xl underline decoration-primary-1 decoration-8">
+          {giftName}
+        </div>
+      </div>,
+      {
+        duration: 10000,
+      },
+    );
+    if (giftToastList.current.length >= maxMsg) {
+      toast.dismiss(giftToastList.current[0]);
+      giftToastList.current = [...giftToastList.current.slice(1), toastID];
+    } else {
+      giftToastList.current = [...giftToastList.current, toastID];
+    }
+  };
+
   useEffect(() => {
     const live = new KeepLiveWS(rid);
     live.on('open', () =>
@@ -90,14 +124,30 @@ export default function DanMuBubble(props: { className?: string }) {
     );
 
     live.on('msg', (data) => {
+      console.log(
+        '%c [ bilibili live msg data ]',
+        'font-size:13px; background:#FFFF00; color:#bf2c9f;',
+        data,
+      );
       const type = data.cmd;
       switch (type) {
         case 'DANMU_MSG':
           handleMessage(data.info);
           break;
+        case 'SEND_GIFT':
+          handleGift(data.data);
+          break;
       }
     });
   }, []);
+
+  // mock send gift
+  // useEffect(() => {
+  //   if (!import.meta.env.DEV) return;
+  //   setInterval(() => {
+  //     handleGift(MOCK);
+  //   }, 1000);
+  // }, []);
 
   // auto hide danmu
   useEffect(() => {

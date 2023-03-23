@@ -2,32 +2,56 @@ import { Bubble, ChatBubble, CountDown } from '@/components';
 import DanMuBubble from '@/components/danmu';
 import { LiveLayout } from '@/layout/live-layout';
 import React from 'react';
+import { Toaster } from 'react-hot-toast';
 
 const StudyLive: React.FC = () => {
   return (
-    <LiveLayout>
-      <CountDown
-        className="absolute left-[40px] top-1/2 -translate-y-1/2 "
-        extra={
-          <Bubble
-            id="countdown-text"
-            name="torytang"
-            content="This is the Pomodoro Timer I coded~"
-            direction="left"
-            className="ml-10"
-            size="small"
-          />
-        }
+    <>
+      <LiveLayout>
+        <CountDown
+          className="absolute left-[40px] top-1/2 -translate-y-1/2 "
+          extra={
+            <Bubble
+              id="countdown-text"
+              name="torytang"
+              content="This is the Pomodoro Timer I coded~"
+              direction="left"
+              className="ml-10"
+              size="small"
+            />
+          }
+        />
+        <DanMuBubble
+          key="danmu-bubble"
+          className="absolute top-[4.5rem] right-[20px]"
+        />
+        <ChatBubble
+          className="absolute bottom-[36px] right-[20px]"
+          name="torytang"
+        />
+      </LiveLayout>
+      <Toaster
+        position="bottom-center"
+        containerClassName="ml-40"
+        gutter={24}
+        toastOptions={{
+          style: {
+            backgroundColor: 'rgb(216 205 185)',
+            color: 'rgb(114 27 41)',
+            fontWeight: 800,
+            fontSize: '1.5rem',
+            lineHeight: '2rem',
+            borderRadius: 9999,
+            maxWidth: 'none',
+            height: 64,
+          },
+        }}
+        containerStyle={{
+          bottom: 128,
+          zIndex: 99,
+        }}
       />
-      <DanMuBubble
-        key="danmu-bubble"
-        className="absolute top-[4.5rem] right-[20px]"
-      />
-      <ChatBubble
-        className="absolute bottom-[36px] right-[20px]"
-        name="torytang"
-      />
-    </LiveLayout>
+    </>
   );
 };
 
