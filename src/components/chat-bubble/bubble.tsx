@@ -7,7 +7,7 @@ type IDirection = 'left' | 'right';
 
 interface IProps {
   id: string | number;
-  content?: string;
+  content?: React.ReactNode;
   name?: React.ReactNode;
   className?: string;
   direction?: IDirection;

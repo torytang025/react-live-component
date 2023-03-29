@@ -1,5 +1,8 @@
+import { useDanmu } from '@/hooks/danmu';
+import { IDanmuMsg, IGiftData } from '@/types/danmu';
 import { getNoRefererImageUrl } from '@/utils';
-import { KeepLiveWS } from 'bilibili-live-ws/browser';
+import { TORY_ID } from '@/utils/const';
+import { useMemoizedFn } from 'ahooks';
 import classNames from 'classnames';
 import dayjs, { Dayjs } from 'dayjs';
 import { AnimatePresence } from 'framer-motion';
@@ -9,36 +12,34 @@ import { v4 as uuidv4 } from 'uuid';
 import { Avatar, AvatarFallback, AvatarImage } from '../avatar';
 import { fireConfetti } from '../canfetti';
 import { Bubble } from '../chat-bubble';
-import { IGiftData } from './type';
 
 interface IMsg {
   name: React.ReactNode;
-  content: string;
+  content: React.ReactNode;
   key: string | number;
   time: Dayjs;
   fansInfo?: string;
 }
 
 const maxMsg = 4;
-const rid = 26433151;
-const TORY_ID = 21609301;
 
 export default function DanMuBubble(props: { className?: string }) {
   const { className } = props;
   const [msgList, setMsgList] = useState<IMsg[]>([]);
   const giftToastList = useRef<string[]>([]);
 
-  const handleMessage = (info: any[]) => {
+  const handleDanmuMessage = useMemoizedFn((info: IDanmuMsg) => {
     if (info) {
       const data = info;
       if (!data || !data.length) {
         return;
       }
+      const sticker = data[0][13];
       const msg = data[1];
       const user = data[2];
       const userID = user[0];
       const userName = user[1];
-      const fansInfo = data[3] as [number, string, string]; // 粉丝牌子等级 粉丝称呼
+      const fansInfo = data[3];
       const key = uuidv4();
       const msgData: IMsg = {
         name: userName,
@@ -46,6 +47,15 @@ export default function DanMuBubble(props: { className?: string }) {
         key,
         time: dayjs(),
       };
+      if (typeof sticker !== 'string') {
+        msgData.content = (
+          <img
+            src={getNoRefererImageUrl(sticker.url)}
+            height={sticker.height * 0.6}
+            width={sticker.width * 0.6}
+          />
+        );
+      }
       if (userID === TORY_ID) {
         msgData.name = (
           <div className="flex items-center gap-x-3">
@@ -79,9 +89,9 @@ export default function DanMuBubble(props: { className?: string }) {
         }
       });
     }
-  };
+  });
 
-  const handleGift = (info: IGiftData) => {
+  const handleSendGift = useMemoizedFn((info: IGiftData) => {
     fireConfetti();
     const { uname, face, action, giftName, num } = info;
     const toastID = toast(
@@ -112,34 +122,12 @@ export default function DanMuBubble(props: { className?: string }) {
     } else {
       giftToastList.current = [...giftToastList.current, toastID];
     }
-  };
+  });
 
-  useEffect(() => {
-    const live = new KeepLiveWS(rid);
-    live.on('open', () =>
-      console.log(
-        '%c [ wss init success ]',
-        'font-size:13px; background:#FFFF00; color:#bf2c9f;',
-      ),
-    );
-
-    live.on('msg', (data) => {
-      console.log(
-        '%c [ bilibili live msg data ]',
-        'font-size:13px; background:#FFFF00; color:#bf2c9f;',
-        data,
-      );
-      const type = data.cmd;
-      switch (type) {
-        case 'DANMU_MSG':
-          handleMessage(data.info);
-          break;
-        case 'SEND_GIFT':
-          handleGift(data.data);
-          break;
-      }
-    });
-  }, []);
+  useDanmu({
+    handleDanmuMessage,
+    handleSendGift,
+  });
 
   // mock send gift
   // useEffect(() => {

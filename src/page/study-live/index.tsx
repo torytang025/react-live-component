@@ -1,5 +1,6 @@
 import { Bubble, ChatBubble, CountDown } from '@/components';
 import DanMuBubble from '@/components/danmu';
+import GoodNightText from '@/components/good-night-text';
 import { LiveLayout } from '@/layout/live-layout';
 import React from 'react';
 import { Toaster } from 'react-hot-toast';
@@ -9,7 +10,7 @@ const StudyLive: React.FC = () => {
     <>
       <LiveLayout>
         <CountDown
-          className="absolute left-[40px] top-1/2 -translate-y-1/2 "
+          className="absolute left-[40px] top-1/2 z-top -translate-y-1/2"
           extra={
             <Bubble
               id="countdown-text"
@@ -23,10 +24,10 @@ const StudyLive: React.FC = () => {
         />
         <DanMuBubble
           key="danmu-bubble"
-          className="absolute top-[4.5rem] right-[20px]"
+          className="absolute top-[4.5rem] right-[20px] z-top"
         />
         <ChatBubble
-          className="absolute bottom-[36px] right-[20px]"
+          className="absolute bottom-[36px] right-[20px] z-top"
           name="torytang"
         />
       </LiveLayout>
@@ -51,6 +52,7 @@ const StudyLive: React.FC = () => {
           zIndex: 99,
         }}
       />
+      <GoodNightText />
     </>
   );
 };

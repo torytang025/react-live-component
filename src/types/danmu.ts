@@ -39,3 +39,36 @@ export type IGiftData = {
   tag_image: '';
   user_count: 0;
 };
+
+export type IDanmuMsg = [
+  [
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    string,
+    number,
+    number,
+    number,
+    string,
+    number,
+    (
+      | string
+      | {
+          bulge_display: number;
+          emoticon_unique: string; // 文字版
+          height: number;
+          in_player_area: number;
+          is_dynamic: number;
+          url: string;
+          width: number;
+        }
+    ),
+  ],
+  string, // content
+  [number, string], // uid, username
+  [number, string, string, number], // 粉丝牌子等级 粉丝牌子 粉丝主name 粉丝主id
+];

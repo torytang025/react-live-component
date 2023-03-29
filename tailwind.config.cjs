@@ -20,8 +20,13 @@ module.exports = {
         chatBubbleRightTail: '-9px 4px 0 0 #D8CDB9',
       },
       backgroundImage: {
-        "study-live": "url(/src/assets/img/shot.png)" 
-      }
+        'study-live': 'url(/src/assets/img/shot.png)',
+      },
+      zIndex: {
+        top: '99997',
+        layer: '99998',
+        modal: '99999',
+      },
     },
   },
   plugins: [],

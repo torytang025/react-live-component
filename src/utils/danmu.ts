@@ -1,16 +1,6 @@
-import { IGiftData } from './type';
+import { IGiftData } from '@/types/danmu';
 
-export function getWsEndpoint() {
-  if (window.location.protocol === 'http:') {
-    return `ws://${window.location.hostname}:8000`;
-  } else if (window.location.protocol === 'https:') {
-    return `wss://${window.location.hostname}:8000`;
-  } else {
-    console.warn('获取ws地址失败');
-  }
-}
-
-export const MOCK: IGiftData = {
+export const MOCK_GIFT_DATA: IGiftData = {
   giftName: '辣条',
   num: 1,
   uname: 'simon3000',
@@ -50,4 +40,13 @@ export const MOCK: IGiftData = {
   effect: 0,
   tag_image: '',
   user_count: 0,
+};
+
+export const isGoodNightDanmuMsg = (text: string): boolean => {
+  const reg = /^(大家)?((晚)?安|good( )?night|wan( )?an)/;
+
+  if (reg.test(text)) {
+    return true;
+  }
+  return false;
 };
