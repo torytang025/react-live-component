@@ -43,7 +43,7 @@ export const MOCK_GIFT_DATA: IGiftData = {
 };
 
 export const isGoodNightDanmuMsg = (text: string): boolean => {
-  const reg = /^(大家)?((晚)?安|good( )?night|wan( )?an)/;
+  const reg = /^(大家|一起|各位|那)?((晚)?安|good( )?night|wan( )?an)/;
 
   if (reg.test(text)) {
     return true;

@@ -114,7 +114,13 @@ export default function GoodNightText() {
             <div className="flex items-center justify-center gap-x-4 font-[signature] text-9xl">
               {'Good Night'.split('').map((l, i) => {
                 return (
-                  <motion.span key={l + ' ' + i} variants={letter}>
+                  <motion.span
+                    key={l + ' ' + i}
+                    variants={letter}
+                    style={{
+                      textShadow: '8px 8px 8px #721B29',
+                    }}
+                  >
                     {l}
                   </motion.span>
                 );
