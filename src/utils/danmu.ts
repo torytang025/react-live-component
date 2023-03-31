@@ -43,9 +43,10 @@ export const MOCK_GIFT_DATA: IGiftData = {
 };
 
 export const isGoodNightDanmuMsg = (text: string): boolean => {
-  const reg = /^(大家|一起|各位|那)?((晚)?安|good( )?night|wan( )?an)/;
+  const reg = /((晚)?安|good( )?night|wan( )?an)/;
+  const notInclude = /输入/;
 
-  if (reg.test(text)) {
+  if (reg.test(text) && !notInclude.test(text)) {
     return true;
   }
   return false;
