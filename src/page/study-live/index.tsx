@@ -1,6 +1,6 @@
 import { Bubble, ChatBubble, CountDown } from '@/components';
 import DanMuBubble from '@/components/danmu';
-import GoodNightText from '@/components/good-night-text';
+import Headline from '@/components/headline';
 import { LiveLayout } from '@/layout/live-layout';
 import React from 'react';
 import { Toaster } from 'react-hot-toast';
@@ -52,7 +52,7 @@ const StudyLive: React.FC = () => {
           zIndex: 99,
         }}
       />
-      <GoodNightText />
+      <Headline />
     </>
   );
 };

@@ -1,4 +1,5 @@
 import { IGiftData } from '@/types/danmu';
+import dayjs from 'dayjs';
 
 export const MOCK_GIFT_DATA: IGiftData = {
   giftName: '辣条',
@@ -43,10 +44,23 @@ export const MOCK_GIFT_DATA: IGiftData = {
 };
 
 export const isGoodNightDanmuMsg = (text: string): boolean => {
+  if (!import.meta.env.DEV) {
+    const currentHour = dayjs().hour();
+    if (currentHour > 6 && currentHour < 20) return false;
+  }
   const reg = /((晚)?安|good( )?night|wan( )?an)/;
   const notInclude = /输入/;
 
   if (reg.test(text) && !notInclude.test(text)) {
+    return true;
+  }
+  return false;
+};
+
+export const isFestival = (text: string) => {
+  const reg = /^愚人节快乐(!|~)?/;
+
+  if (reg.test(text) && dayjs().month() === 3 && dayjs().date() === 1) {
     return true;
   }
   return false;
