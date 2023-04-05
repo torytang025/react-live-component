@@ -8,7 +8,6 @@ import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { filter } from 'lodash-es';
 import { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
-import { star } from '../canfetti';
 import { MODE_MAP, TextMode } from './const';
 
 const sentence: Variants = {
@@ -39,17 +38,17 @@ interface ITextUserData {
   mode: TextMode;
 }
 
-interface ITextData {
-  title: string;
-  subtitle?: string;
+interface IContentData {
+  title: React.ReactNode;
+  subtitle?: React.ReactNode;
 }
 
 const MAX_USER = 20;
 
 export default function Headline() {
   const [userList, setUserList] = useState<ITextUserData[]>([]);
-  const [text, setText] = useState<ITextData>();
-  const [textMode, setTextMode] = useState<TextMode>(TextMode.Null);
+  const [content, setContent] = useState<IContentData>();
+  const [contentMode, setContentMode] = useState<TextMode>(TextMode.Null);
 
   const handleDanmuMessage = useMemoizedFn((data: IDanmuMsg) => {
     const msg = data[1];
@@ -61,13 +60,13 @@ export default function Headline() {
       if (isGoodNightDanmuMsg(msg)) {
         mode = TextMode.GoodNight;
       } else if (isFestival(msg)) {
-        star();
+        // star();
         mode = TextMode.Festival;
       } else {
         return;
       }
-      setText(MODE_MAP[mode].content);
-      setTextMode(mode);
+      setContent(MODE_MAP[mode].content);
+      setContentMode(mode);
       const temp = [...userList];
       if (temp.length >= MAX_USER) {
         temp.slice(1);
@@ -130,7 +129,7 @@ export default function Headline() {
   return (
     <div className="fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center">
       <AnimatePresence>
-        {userList.filter((i) => i.mode === textMode).length && (
+        {userList.filter((i) => i.mode === contentMode).length && (
           <motion.div
             key="good-night-text-wrapper"
             className="flex flex-col flex-wrap items-center justify-center gap-y-4 text-primary-1"
@@ -140,34 +139,14 @@ export default function Headline() {
             exit="hidden"
             onClick={handleTextClick}
           >
-            <div
-              className={clsx(
-                'flex items-center justify-center gap-x-4',
-                MODE_MAP[textMode].style.title,
-              )}
-            >
-              {text?.title.split('').map((l, i) => {
-                return (
-                  <motion.span
-                    key={l + ' ' + i}
-                    variants={letter}
-                    style={{
-                      textShadow: '8px 8px 8px #721B29',
-                    }}
-                  >
-                    {l}
-                  </motion.span>
-                );
-              })}
-            </div>
-            {text?.subtitle && (
+            {typeof content?.title === 'string' ? (
               <div
                 className={clsx(
                   'flex items-center justify-center gap-x-4',
-                  MODE_MAP[textMode].style.subtitle,
+                  MODE_MAP[contentMode].style.title,
                 )}
               >
-                {text?.subtitle.split('').map((l, i) => {
+                {content?.title.split('').map((l, i) => {
                   return (
                     <motion.span
                       key={l + ' ' + i}
@@ -181,16 +160,47 @@ export default function Headline() {
                   );
                 })}
               </div>
+            ) : (
+              <div>{content?.title}</div>
+            )}
+
+            {content?.subtitle && (
+              <>
+                {typeof content?.subtitle === 'string' ? (
+                  <div
+                    className={clsx(
+                      'flex items-center justify-center gap-x-4',
+                      MODE_MAP[contentMode].style.subtitle,
+                    )}
+                  >
+                    {content?.subtitle.split('').map((l, i) => {
+                      return (
+                        <motion.span
+                          key={l + ' ' + i}
+                          variants={letter}
+                          style={{
+                            textShadow: '8px 8px 8px #721B29',
+                          }}
+                        >
+                          {l}
+                        </motion.span>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div>{content.subtitle}</div>
+                )}
+              </>
             )}
             <div
               className={clsx(
                 'flex max-w-2xl flex-wrap items-center justify-center gap-4 text-2xl',
-                MODE_MAP[textMode].style.userList,
+                MODE_MAP[contentMode].style.userList,
               )}
             >
               <span className="text-6xl">by</span>
               {userList
-                .filter((i) => i.mode === textMode)
+                .filter((i) => i.mode === contentMode)
                 .map((item) => {
                   return (
                     <motion.span
