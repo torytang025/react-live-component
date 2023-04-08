@@ -51,7 +51,7 @@ export default function DanMuBubble(props: { className?: string }) {
         msgData.content = (
           <img
             src={getNoRefererImageUrl(sticker.url)}
-            className="max-h-24 object-contain"
+            className={sticker.bulge_display ? 'h-16' : 'h-10'}
           />
         );
       }
