@@ -1,16 +1,13 @@
 import { useDanmu } from '@/hooks/danmu';
-import { IDanmuMsg, IGiftData } from '@/types/danmu';
+import { IDanmuMsg } from '@/types/danmu';
 import { getNoRefererImageUrl } from '@/utils';
 import { TORY_ID } from '@/utils/const';
 import { useMemoizedFn } from 'ahooks';
 import classNames from 'classnames';
 import dayjs, { Dayjs } from 'dayjs';
 import { AnimatePresence } from 'framer-motion';
-import React, { useEffect, useRef, useState } from 'react';
-import toast from 'react-hot-toast';
+import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Avatar, AvatarFallback, AvatarImage } from '../avatar';
-import { fireConfetti } from '../canfetti';
 import { Bubble } from '../chat-bubble';
 
 interface IMsg {
@@ -26,7 +23,6 @@ const maxMsg = 4;
 export default function DanMuBubble(props: { className?: string }) {
   const { className } = props;
   const [msgList, setMsgList] = useState<IMsg[]>([]);
-  const giftToastList = useRef<string[]>([]);
 
   const handleDanmuMessage = useMemoizedFn((info: IDanmuMsg) => {
     if (info) {
@@ -90,42 +86,8 @@ export default function DanMuBubble(props: { className?: string }) {
     }
   });
 
-  const handleSendGift = useMemoizedFn((info: IGiftData) => {
-    fireConfetti();
-    const { uname, face, action, giftName, num } = info;
-    const toastID = toast(
-      <div className="flex items-center gap-x-2  whitespace-nowrap">
-        <div className="flex items-center gap-x-4">
-          <Avatar>
-            <AvatarImage src={getNoRefererImageUrl(face)} />
-            <AvatarFallback>{uname[0]}</AvatarFallback>
-          </Avatar>
-          <p>{uname}</p>
-        </div>
-        <div className="flex items-center gap-x-1 font-bold">
-          <span>{action}</span>
-          <span>{num}</span>
-          <span>x</span>
-        </div>
-        <div className="flex flex-1 items-center gap-x-2 align-middle font-[reggea] text-5xl underline decoration-primary-1 decoration-8">
-          {giftName}
-        </div>
-      </div>,
-      {
-        duration: 10000,
-      },
-    );
-    if (giftToastList.current.length >= maxMsg) {
-      toast.dismiss(giftToastList.current[0]);
-      giftToastList.current = [...giftToastList.current.slice(1), toastID];
-    } else {
-      giftToastList.current = [...giftToastList.current, toastID];
-    }
-  });
-
   useDanmu({
     handleDanmuMessage,
-    handleSendGift,
   });
 
   // mock send gift

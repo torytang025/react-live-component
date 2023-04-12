@@ -1,13 +1,17 @@
 import { useDanmu } from '@/hooks/danmu';
-import { IDanmuMsg } from '@/types/danmu';
+import { IDanmuMsg, IGiftData } from '@/types/danmu';
+import { getNoRefererImageUrl } from '@/utils';
 import { isFestival, isGoodNightDanmuMsg } from '@/utils/danmu';
 import { useMemoizedFn } from 'ahooks';
 import clsx from 'clsx';
 import dayjs, { Dayjs } from 'dayjs';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { filter } from 'lodash-es';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 import { v4 } from 'uuid';
+import { Avatar, AvatarFallback, AvatarImage } from '../avatar';
+import { fireConfetti } from '../canfetti';
 import { MODE_MAP, TextMode } from './const';
 
 const sentence: Variants = {
@@ -44,11 +48,13 @@ interface IContentData {
 }
 
 const MAX_USER = 20;
+const maxMsg = 4;
 
 export default function Headline() {
   const [userList, setUserList] = useState<ITextUserData[]>([]);
   const [content, setContent] = useState<IContentData>();
   const [contentMode, setContentMode] = useState<TextMode>(TextMode.Null);
+  const giftToastList = useRef<string[]>([]);
 
   const handleDanmuMessage = useMemoizedFn((data: IDanmuMsg) => {
     const msg = data[1];
@@ -97,12 +103,46 @@ export default function Headline() {
     }
   });
 
+  const handleSendGift = useMemoizedFn((info: IGiftData) => {
+    fireConfetti();
+    const { uname, face, action, giftName, num } = info;
+    const toastID = toast(
+      <div className="flex items-center gap-x-2  whitespace-nowrap">
+        <div className="flex items-center gap-x-4">
+          <Avatar>
+            <AvatarImage src={getNoRefererImageUrl(face)} />
+            <AvatarFallback>{uname[0]}</AvatarFallback>
+          </Avatar>
+          <p>{uname}</p>
+        </div>
+        <div className="flex items-center gap-x-1 font-bold">
+          <span>{action}</span>
+          <span>{num}</span>
+          <span>x</span>
+        </div>
+        <div className="flex flex-1 items-center gap-x-2 align-middle font-[reggea] text-5xl underline decoration-primary-1 decoration-8">
+          {giftName}
+        </div>
+      </div>,
+      {
+        duration: 10000,
+      },
+    );
+    if (giftToastList.current.length >= maxMsg) {
+      toast.dismiss(giftToastList.current[0]);
+      giftToastList.current = [...giftToastList.current.slice(1), toastID];
+    } else {
+      giftToastList.current = [...giftToastList.current, toastID];
+    }
+  });
+
   const handleTextClick = () => {
     setUserList([]);
   };
 
   useDanmu({
     handleDanmuMessage,
+    handleSendGift,
   });
 
   useEffect(() => {
