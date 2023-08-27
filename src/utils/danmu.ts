@@ -58,9 +58,13 @@ export const isGoodNightDanmuMsg = (text: string): boolean => {
 };
 
 export const isFestival = (text: string) => {
-  const reg = /^请(你|大家)吃青团(!|~)?/;
+  const reg = /高考加油/;
 
-  if (reg.test(text) && dayjs().month() === 3 && dayjs().date() === 5) {
+  if (
+    reg.test(text) &&
+    dayjs().month() === 5 &&
+    [5, 6, 7, 8].includes(dayjs().date())
+  ) {
     return true;
   }
   return false;

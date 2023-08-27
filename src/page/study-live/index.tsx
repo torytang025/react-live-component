@@ -2,7 +2,7 @@ import { Bubble, ChatBubble, CountDown } from '@/components';
 import DanMuBubble from '@/components/danmu';
 import Headline from '@/components/headline';
 import { LiveLayout } from '@/layout/live-layout';
-import { AnimatePresence, motion, Variants } from 'framer-motion';
+import { AnimatePresence, Variants, motion } from 'framer-motion';
 import React from 'react';
 import { Toaster } from 'react-hot-toast';
 import { useRecoilValue } from 'recoil';
@@ -33,7 +33,7 @@ const StudyLive: React.FC = () => {
           }
         />
         <AnimatePresence>
-          {timerState.status === 'break' && (
+          {(timerState.status === 'break' || import.meta.env.DEV )&& (
             <motion.div
               variants={danmuVariants}
               initial="hidden"

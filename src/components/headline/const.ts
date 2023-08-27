@@ -29,11 +29,11 @@ export const MODE_MAP: {
   },
   [TextMode.Festival]: {
     style: {
-      title: 'font-[Reggae] text-6xl',
-      subtitle: 'font-[Reggae] text-5xl',
+      title: 'font-[Reggae] text-9xl',
+      subtitle: 'font-[Reggae] text-6xl',
       userList: 'font-[Reggae]',
     },
-    content: { title: "Happy April Fools' Day", subtitle: '愚人节快乐' },
+    content: { title: '高考加油', subtitle: '金榜题名' },
   },
   [TextMode.Null]: {
     style: {
