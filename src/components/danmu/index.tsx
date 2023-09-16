@@ -3,7 +3,7 @@ import { IDanmuMsg } from '@/types/danmu';
 import { getNoRefererImageUrl } from '@/utils';
 import { TORY_ID } from '@/utils/const';
 import { useMemoizedFn } from 'ahooks';
-import classNames from 'classnames';
+import cs from 'classnames';
 import dayjs, { Dayjs } from 'dayjs';
 import { AnimatePresence } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
@@ -20,8 +20,11 @@ interface IMsg {
 
 const maxMsg = 4;
 
-export default function DanMuBubble(props: { className?: string }) {
-  const { className } = props;
+export default function DanMuBubble(props: {
+  size?: 'medium' | 'small';
+  className?: string;
+}) {
+  const { size = 'medium', className } = props;
   const [msgList, setMsgList] = useState<IMsg[]>([]);
 
   const handleDanmuMessage = useMemoizedFn((info: IDanmuMsg) => {
@@ -47,16 +50,41 @@ export default function DanMuBubble(props: { className?: string }) {
         msgData.content = (
           <img
             src={getNoRefererImageUrl(sticker.url)}
-            className={sticker.bulge_display ? 'h-16' : 'h-10'}
+            className={cs([
+              sticker.bulge_display
+                ? size === 'medium'
+                  ? 'h-16'
+                  : 'h-14'
+                : size === 'medium'
+                ? 'h-10'
+                : 'h-8',
+            ])}
           />
         );
       }
       if (userID === TORY_ID) {
         msgData.name = (
           <div className="flex items-center gap-x-3">
-            <div className="flex items-center gap-x-1 rounded-2xl bg-front/20 p-2">
-              <span className="text-3xl">👾</span>
-              <span className="text-2xl font-extrabold text-primary-1">
+            <div
+              className={cs(
+                'flex items-center gap-x-1 rounded-2xl bg-front/20',
+                size === 'medium' ? 'p-2' : 'p-1',
+              )}
+            >
+              <span
+                className={cs({
+                  'text-3xl': size === 'medium',
+                  'text-xl': size === 'small',
+                })}
+              >
+                👾
+              </span>
+              <span
+                className={cs('font-extrabold text-primary-1', {
+                  'text-2xl': size === 'medium',
+                  'text-lg': size === 'small',
+                })}
+              >
                 999
               </span>
             </div>
@@ -66,9 +94,26 @@ export default function DanMuBubble(props: { className?: string }) {
       } else if (fansInfo.length && fansInfo[fansInfo.length - 1] === TORY_ID) {
         msgData.name = (
           <div className="flex items-center gap-x-3">
-            <div className="flex items-center gap-x-1 rounded-2xl bg-front/20 p-2">
-              <span className="text-3xl">🧙</span>
-              <span className="text-2xl font-extrabold text-primary-1">
+            <div
+              className={cs(
+                'flex items-center gap-x-1 rounded-2xl bg-front/20',
+                size === 'medium' ? 'p-2' : 'p-1',
+              )}
+            >
+              <span
+                className={cs({
+                  'text-3xl': size === 'medium',
+                  'text-xl': size === 'small',
+                })}
+              >
+                🧙
+              </span>
+              <span
+                className={cs('font-extrabold text-primary-1', {
+                  'text-2xl': size === 'medium',
+                  'text-lg': size === 'small',
+                })}
+              >
                 {fansInfo[0]}
               </span>
             </div>
@@ -117,11 +162,12 @@ export default function DanMuBubble(props: { className?: string }) {
   }, []);
 
   return (
-    <div className={classNames([className])}>
+    <div className={cs([className])}>
       <div className="flex h-[500px] flex-col items-end justify-end gap-y-4">
         <AnimatePresence mode="popLayout">
           {msgList.map((msg) => (
             <Bubble
+              size={size}
               key={msg.key}
               id={msg.key}
               content={msg.content}

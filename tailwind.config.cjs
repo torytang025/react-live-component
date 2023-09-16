@@ -21,6 +21,7 @@ module.exports = {
       },
       backgroundImage: {
         'study-live': 'url(/src/assets/img/shot.png)',
+        'game-live': 'url(/src/assets/img/shot-game.png)',
       },
       zIndex: {
         top: '99997',

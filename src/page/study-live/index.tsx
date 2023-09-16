@@ -1,7 +1,7 @@
 import { Bubble, ChatBubble, CountDown } from '@/components';
 import DanMuBubble from '@/components/danmu';
 import Headline from '@/components/headline';
-import { LiveLayout } from '@/layout/live-layout';
+import { StudyLiveLayout } from '@/layout/live-layout';
 import { AnimatePresence, Variants, motion } from 'framer-motion';
 import React from 'react';
 import { Toaster } from 'react-hot-toast';
@@ -18,7 +18,7 @@ const StudyLive: React.FC = () => {
 
   return (
     <>
-      <LiveLayout>
+      <StudyLiveLayout>
         <CountDown
           className="absolute left-[40px] top-1/2 z-top -translate-y-1/2"
           extra={
@@ -33,7 +33,7 @@ const StudyLive: React.FC = () => {
           }
         />
         <AnimatePresence>
-          {(timerState.status === 'break' || import.meta.env.DEV )&& (
+          {(timerState.status === 'break' || import.meta.env.DEV) && (
             <motion.div
               variants={danmuVariants}
               initial="hidden"
@@ -51,7 +51,7 @@ const StudyLive: React.FC = () => {
           className="absolute bottom-[36px] right-[20px] z-top"
           name="torytang"
         />
-      </LiveLayout>
+      </StudyLiveLayout>
       <Toaster
         position="bottom-center"
         containerClassName="ml-40"

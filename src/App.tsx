@@ -5,6 +5,7 @@ function App() {
   return (
     <RecoilRoot>
       <StudyLive />
+      {/* <GameLive /> */}
     </RecoilRoot>
   );
 }
