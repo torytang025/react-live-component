@@ -5,13 +5,13 @@ import { isFestival, isGoodNightDanmuMsg } from '@/utils/danmu';
 import { useMemoizedFn } from 'ahooks';
 import clsx from 'clsx';
 import dayjs, { Dayjs } from 'dayjs';
-import { AnimatePresence, motion, Variants } from 'framer-motion';
+import { AnimatePresence, Variants, motion } from 'framer-motion';
 import { filter } from 'lodash-es';
 import React, { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { v4 } from 'uuid';
 import { Avatar, AvatarFallback, AvatarImage } from '../avatar';
-import { fireConfetti } from '../canfetti';
+import { fireConfetti, star } from '../canfetti';
 import { MODE_MAP, TextMode } from './const';
 
 const sentence: Variants = {
@@ -68,6 +68,7 @@ export default function Headline() {
       } else if (isFestival(msg)) {
         // star();
         mode = TextMode.Festival;
+        star();
       } else {
         return;
       }

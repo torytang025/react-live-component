@@ -1,3 +1,5 @@
+import React from 'react';
+
 export enum TextMode {
   GoodNight = 'good_night',
   Festival = 'festival',
@@ -12,7 +14,7 @@ export const MODE_MAP: {
       userList?: string;
     };
     content: {
-      title: string;
+      title: React.ReactNode;
       subtitle?: string;
     };
   };
@@ -33,7 +35,10 @@ export const MODE_MAP: {
       subtitle: 'font-[Reggae] text-6xl',
       userList: 'font-[Reggae]',
     },
-    content: { title: '高考加油', subtitle: '金榜题名' },
+    content: {
+      title: <div className="font-[Reggae] text-9xl">🎄圣诞快乐</div>,
+      subtitle: 'Merry Christmas',
+    },
   },
   [TextMode.Null]: {
     style: {

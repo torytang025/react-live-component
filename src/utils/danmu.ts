@@ -58,12 +58,12 @@ export const isGoodNightDanmuMsg = (text: string): boolean => {
 };
 
 export const isFestival = (text: string) => {
-  const reg = /高考加油/;
+  const reg = /(圣诞(节)?快乐||Merry Christmas)/i;
 
   if (
     reg.test(text) &&
-    dayjs().month() === 5 &&
-    [5, 6, 7, 8].includes(dayjs().date())
+    dayjs().month() === 11 &&
+    [24, 25].includes(dayjs().date())
   ) {
     return true;
   }
